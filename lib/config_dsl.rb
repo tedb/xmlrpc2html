@@ -1,21 +1,21 @@
 require 'ostruct'
 module Xmlrpc2Html
-  module Display
+  module ConfigMixin
     def display display_data = nil
       @display = display_data unless display_data.nil?
       return @display
     end
   end
   
-  class Setup < OpenStruct
-    include Xmlrpc2Html::Display
+  class Config < OpenStruct
+    include Xmlrpc2Html::ConfigMixin
     attr_accessor :targets
-    @display, @targets = '', []
+    def initialize; @display, @targets = '', []; end
     
-    def self.setup(&block)
+    def self.config(&block)
       app = self.new
       app.instance_eval(&block)
-      return Xmlrpc2Html::Generate.new(app)
+      app
     end
         
     def target url, options = {}, &block
@@ -25,9 +25,12 @@ module Xmlrpc2Html
     end
   
     class Target < OpenStruct
-      include Xmlrpc2Html::Display
+      include Xmlrpc2Html::ConfigMixin
       attr_accessor :xmlrpc_methods, :url, :options
-      @xmlrpc_methods, @url, @options, @display = [], '', {}, ''
+      def initialize(args)
+        @xmlrpc_methods, @url, @options, @display = [], '', {}, ''
+        super
+      end
       
       def method method_name, options = {}, &block
         new_method = XmlrpcMethod.new :method_name => method_name,
@@ -38,9 +41,12 @@ module Xmlrpc2Html
       end
     
       class XmlrpcMethod < OpenStruct
-        include Xmlrpc2Html::Display
+        include Xmlrpc2Html::ConfigMixin
         attr_accessor :tests, :method_name, :options
-        @tests, @method_name, @options, @display = [], '', {}, ''
+        def initialize(args)
+          @tests, @method_name, @options, @display = [], '', {}, ''
+          super
+        end
 
         def input_template template
           self.input_template = template
@@ -53,9 +59,12 @@ module Xmlrpc2Html
         end
     
         class Test < OpenStruct
-          include Xmlrpc2Html::Display
+          include Xmlrpc2Html::ConfigMixin
           attr_accessor :input, :expect
-          @display = ''
+          def initialize
+            @display = ''
+            super
+          end
 
           def input input
             self.input = input
