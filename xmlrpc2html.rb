@@ -1,15 +1,7 @@
-require 'rubygems'
-require 'sinatra'
-$LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'lib')
-require 'helpers.rb'
-require 'web_generate.rb'
-require 'config_dsl.rb'
+require File.join(File.dirname(__FILE__), 'lib', "xmlrpc2html_libs.rb")
 
-config = Xmlrpc2Html::Config.config do
-  # Tried using load here but it didn't seem to do the right thing
-  eval File.read File.dirname(__FILE__) + '/config.rb'
-end
+config = Xmlrpc2Html::Config.config File.dirname(__FILE__) + '/config.rb'
 
 puts "Config: " + config.inspect
 
-Xmlrpc2Html::WebGenerate.new.app(config)
+#Xmlrpc2Html::WebGenerate.new.app(config)
