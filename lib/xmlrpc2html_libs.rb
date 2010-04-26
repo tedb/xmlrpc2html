@@ -1,3 +1,4 @@
+require 'logger'
 require 'rubygems'
 require 'sinatra'
 $LOAD_PATH.unshift File.dirname(__FILE__)
