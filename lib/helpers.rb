@@ -1,3 +1,4 @@
+def web_app_helpers
 helpers do
   def navbar(app)
     navbar = ''
@@ -33,4 +34,5 @@ helpers do
     </html>
     _HTML_
   end
+end
 end

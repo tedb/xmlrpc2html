@@ -1,6 +1,6 @@
 require 'logger'
 require 'rubygems'
-require 'sinatra'
+require 'sinatra/base'
 $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'helpers.rb'
 require 'web_generate.rb'

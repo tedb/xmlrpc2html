@@ -43,4 +43,30 @@ describe Xmlrpc2Html::ConfigDSL, "#config" do
     config_data.targets.first.rpc_methods.first.method_name.should == 'add'
     config_data.targets.first.rpc_methods.first.title.should == 'Add'
   end
+
+  it "should have a target with rpc_method that has 2 tests" do
+    config_data = Xmlrpc2Html::ConfigDSL.config do
+      target 'http://foo' do
+        rpc_method "add" do
+          test "do stuff" do
+            input "a string"
+            expect String
+          end
+          test "do more" do
+            input Integer
+            expect 3
+          end
+        end
+      end
+    end
+    
+    config_data.targets.first.rpc_methods.first.tests.first.title.should == "do stuff"
+    config_data.targets.first.rpc_methods.first.tests.first.input.should == "a string"
+    config_data.targets.first.rpc_methods.first.tests.first.expect.should == String
+    
+    config_data.targets.first.rpc_methods.first.tests.last.title.should == "do more"
+    config_data.targets.first.rpc_methods.first.tests.last.input.should == Integer
+    config_data.targets.first.rpc_methods.first.tests.last.expect.should == 3
+  end
+
 end

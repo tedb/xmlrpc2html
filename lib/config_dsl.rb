@@ -1,7 +1,7 @@
 module Xmlrpc2Html
   # The purpose of Xmlrpc2Html::ConfigDSL.config is to return a ConfigData instance
   class ConfigData < Struct.new :title, :targets
-    class Target < Struct.new :title, :rpc_methods, :url
+    class Target < Struct.new :title, :rpc_methods, :url, :user_path
       class RpcMethod < Struct.new :title, :tests, :method_name, :options, :input_template
         class Test < Struct.new :title, :input, :expect
         end
@@ -52,6 +52,11 @@ module Xmlrpc2Html
         @config_data.url = url
       end
       
+      def user_path user_path
+        log.debug "Target#user_path '#{user_path}'"
+        @config_data.user_path = user_path
+      end
+            
       def rpc_method method_name, &block
         log.debug "Target#rpc_method '#{method_name}'"
         new_method = RpcMethod.new method_name

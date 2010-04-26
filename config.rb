@@ -9,6 +9,9 @@ target 'http://localhost:9999/XMLRPC1' do
   # Title of the target will be an <h2> and shown in the navbar
   title 'Fake user creation'
   
+  # URL path to this target -- must be unique
+  user_path '/user_creation'
+  
   # One or more XML-RPC methods are specified by name
   rpc_method 'createuser' do
     
@@ -46,6 +49,9 @@ end
 
 target 'http://localhost:9999/XMLRPC2' do
   title 'Math'
+  
+  user_path '/add'
+      
   rpc_method :add do
     title 'Add Numbers'
     
