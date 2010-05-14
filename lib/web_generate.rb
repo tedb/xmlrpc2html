@@ -8,7 +8,8 @@ module Xmlrpc2Html
 #  end
   
   class WebApp < Sinatra::Base
-    web_app_helpers
+    include Xmlrpc2Html::Helpers
+    extend Xmlrpc2Html::Helpers::ClassMethods
     
     set :sessions, true
     
@@ -22,14 +23,17 @@ module Xmlrpc2Html
 
     get '/' do
       #layout(config_data, config_data.inspect)
-      config_data.inspect
+      navbar(@@config_data) + "<hr>" + config_data.inspect
     end
     
     def self.build_routes!
-      @@config_data.targets.each_with_index do |target, i|
-        warn "Generating target path: #{target.user_path}"
-        get target.user_path do
-          target.title
+      @@config_data.targets.each do |target|
+        target.rpc_methods.each do |method|
+          url = url_for_target_method(target, method)
+          warn "Generating target path: #{url}"
+          get url do
+            navbar(@@config_data) + "<hr>" + target.title
+          end
         end
       end
     end

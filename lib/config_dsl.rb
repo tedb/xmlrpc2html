@@ -1,9 +1,17 @@
 module Xmlrpc2Html
+  class ValidatableStruct < Struct
+    include Validatable
+  end
+  
+  #TODO: finish validations to be recursive, and also invoke .valid? where needed
   # The purpose of Xmlrpc2Html::ConfigDSL.config is to return a ConfigData instance
-  class ConfigData < Struct.new :title, :targets
-    class Target < Struct.new :title, :rpc_methods, :url, :user_path
-      class RpcMethod < Struct.new :title, :tests, :method_name, :options, :input_template
-        class Test < Struct.new :title, :input, :expect
+  class ConfigData < ValidatableStruct.new :title, :targets
+    class Target < ValidatableStruct.new :title, :rpc_methods, :url, :user_path
+      validates_presence_of :title, :rpc_methods, :url, :user_path
+      class RpcMethod < ValidatableStruct.new :title, :tests, :method_name, :options, :input_template
+        validates_presence_of :title, :method_name
+        class Test < ValidatableStruct.new :title, :input, :expect
+          validates_presence_of :title, :expect
         end
       end
     end

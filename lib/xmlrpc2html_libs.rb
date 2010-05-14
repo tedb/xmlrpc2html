@@ -1,6 +1,7 @@
 require 'logger'
 require 'rubygems'
 require 'sinatra/base'
+require 'validatable'
 $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'helpers.rb'
 require 'web_generate.rb'
