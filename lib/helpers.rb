@@ -24,12 +24,12 @@ module Xmlrpc2Html
     end
   
     def layout(app, body)
-      raise ArgumentError "app must be Xmlrpc2Html::Setup" unless app.is_a?(Xmlrpc2Html::Setup)
+      raise ArgumentError "app must be Xmlrpc2Html::ConfigData" unless app.is_a?(Xmlrpc2Html::ConfigData)
       return <<-_HTML_
       <html>
         <head>
           <title>xmlrpc2html</title>
-          <link href="style.css" rel="stylesheet" type="text/css" />
+          <link href="/style.css" rel="stylesheet" type="text/css" />
         </head>
         <body>
           <div id="navbar">

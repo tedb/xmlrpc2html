@@ -5,10 +5,12 @@ body {
 #navbar {
 	float: left;
 	border-right: 2px solid navy;
-	padding-right: 1em;
+	background: #eeeeff;
+	padding: .5em;
 	margin-right: 1em;
+	width: 15em;
 }
 
 #content {
-	
+	/*float: right;*/
 }

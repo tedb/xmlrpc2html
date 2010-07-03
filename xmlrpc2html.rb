@@ -10,4 +10,3 @@ Xmlrpc2Html::WebApp.config_data = config
 Xmlrpc2Html::WebApp.build_routes!
 Xmlrpc2Html::WebApp.run! :host => 'localhost', :port => 9090
 #run Sinatra::Base
-

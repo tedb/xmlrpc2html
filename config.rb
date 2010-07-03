@@ -7,7 +7,7 @@ title 'Web Service Testing'
 target 'http://localhost:9999/XMLRPC1' do
   
   # Title of the target will be an <h2> and shown in the navbar
-  title 'Fake user creation'
+  title 'Fake user creation and deletion target'
   
   # URL path to this target -- must be unique
   user_path '/user_creation'
