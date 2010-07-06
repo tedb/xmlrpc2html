@@ -58,11 +58,11 @@ module Xmlrpc2Html
       
     end
     
-    def input_template_form_fragment input_template
+    def input_template_form_fragment input_template, field_name
       template_class = input_template.is_a?(Class) ? input_template : input_template.class
       template_name = "form_datatype_" + template_class.to_s.downcase
       warn "template name: #{template_name}"
-      return haml(template_name.to_sym, :locals => {:input_template => input_template})
+      return haml(template_name.to_sym, :locals => {:input_template => input_template, :field_name => field_name})
     end
   end
 end
