@@ -45,6 +45,11 @@ target 'http://localhost:9999/XMLRPC1' do
     # Boolean inputs can be either TrueClass or FalseClass, which will show True/False radio buttons
     input_template :username => String, :confirm => TrueClass
   end
+  
+  rpc_method "queryuser" do
+    title "Query user"
+    input_template String
+  end
 end
 
 target 'http://localhost:9999/XMLRPC2' do
@@ -68,5 +73,11 @@ target 'http://localhost:9999/XMLRPC2' do
       # The method-testing implementation will do e.g.  response.is_a?(expect.class)
       expect 3
     end
+  end
+  
+  rpc_method :complicated do
+    title "Something complicated"
+    
+    input_template [{:numbers => [Integer, Integer], :bools => [TrueClass, FalseClass]}, String, TrueClass, {:something => DateTime}]
   end
 end

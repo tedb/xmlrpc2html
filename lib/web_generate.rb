@@ -13,6 +13,9 @@ module Xmlrpc2Html
     
     set :sessions, true
     
+    set :public, File.dirname(__FILE__) + '/../public'
+    set :views, File.dirname(__FILE__) + '/../views'
+    
     def self.config_data=(config_data)
       @@config_data = config_data
     end
@@ -26,24 +29,26 @@ module Xmlrpc2Html
       navbar(@@config_data) + "<hr>" + config_data.inspect
     end
     
-    get '/style.css' do
-      File.read 'public/style.css'
-    end
-    
     def self.build_routes!
       @@config_data.targets.each do |target|
-        target.rpc_methods.each do |method|
-          url = url_for_target_method(target, method)
-          warn "Generating target path: #{url}"
+        target.rpc_methods.each do |rpc_method|
+          url = url_for_target_method(target, rpc_method)
+          warn "Generating target path for GET and POST: #{url}"
+          
+          # register a URL handler for rendering the blank form
           get url do
-            #navbar(@@config_data) + "<hr>" + target.title
-            body = render_form(target)
+            #body = render_form(target, rpc_method, action_url)
+            #body = erb(:xmlrpc_form, {}, {:target => target, :rpc_method => rpc_method, :action_url => url })
+            body = haml(:xmlrpc_form, :locals => {:target => target, :rpc_method => rpc_method, :action_url => url })
             layout(@@config_data, body)
           end
           
+          # register a URL handler for taking the form input, running it, showing the results, and
+          # then rendering a pre-filled version of the GET form
           post url do
-            body = render_form(target) + params().inspect
-            layout(@@config_data, body)
+            #body = render_form(target, rpc_method, action_url) + params().inspect
+            body = haml(:xmlrpc_form, :locals => {:target => target, :rpc_method => rpc_method, :action_url => url })
+            layout(@@config_data, body + params().inspect)
           end
         end
       end
@@ -53,22 +58,11 @@ module Xmlrpc2Html
       
     end
     
-    def render_form target
-      target.inspect + <<-__HTML__
-      <hr>
-      <form name="user_creation__creatuser" action="/user_creation/createuser" method="POST">
-      username: <input type="text" name="username"><br>
-      <input type="submit" value="Execute">
-      <input type="reset" value="Clear Form">
-
-      <input type="button" onclick="document.user_creation__creatuser.username.value = 'xmlrpctest9999'; document.user_creation__creatuser.username.disabled = 0" value="Test: should return success"><br>
-
-      <input type="button" onclick="document.user_creation__creatuser.username.value = 'invalid!^%$#^username'; document.user_creation__creatuser.username.disabled = 0" value="Test: should return failures"><br>
-
-      <input type="button" onclick="document.user_creation__creatuser.username.disabled = 1" value="Test: should raise exception"><br>
-
-      </form>
-      __HTML__
+    def input_template_form_fragment input_template
+      template_class = input_template.is_a?(Class) ? input_template : input_template.class
+      template_name = "form_datatype_" + template_class.to_s.downcase
+      warn "template name: #{template_name}"
+      return haml(template_name.to_sym, :locals => {:input_template => input_template})
     end
   end
 end
