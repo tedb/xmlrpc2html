@@ -3,10 +3,9 @@
   - input_template.each_pair do |item_key, item|
     %li
       = item_key.to_s
-      (
-      = item.to_s
-      ):
-      = input_template_form_fragment(item, item_key.to_s + '[]')
-      %# input(type="text" name="#{}[]")
-      %br
+      /(
+      /= item.to_s
+      /):
+      - this_field_name = field_name # not done
+      = input_template_form_fragment(item, field_name_append(field_name, item_key.to_s))
 }

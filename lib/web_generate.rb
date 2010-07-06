@@ -25,8 +25,8 @@ module Xmlrpc2Html
     end
 
     get '/' do
-      #layout(config_data, config_data.inspect)
-      navbar(@@config_data) + "<hr>" + config_data.inspect
+      layout(@@config_data, "<hr>" + config_data.inspect)
+      #navbar(@@config_data) + "<hr>" + config_data.inspect
     end
     
     def self.build_routes!
@@ -61,8 +61,32 @@ module Xmlrpc2Html
     def input_template_form_fragment input_template, field_name
       template_class = input_template.is_a?(Class) ? input_template : input_template.class
       template_name = "form_datatype_" + template_class.to_s.downcase
-      warn "template name: #{template_name}"
-      return haml(template_name.to_sym, :locals => {:input_template => input_template, :field_name => field_name})
+      warn "template name: #{template_name} for input_template #{input_template.inspect}"
+      begin
+        return haml(template_name.to_sym, :locals => {:input_template => input_template, :field_name => field_name})
+      rescue Errno::ENOENT
+        return haml(:form_datatype_string, :locals => {:input_template => input_template, :field_name => field_name})
+      end
+    end
+    
+    # '' + foo = foo
+    # params[] + bar = params[bar]
+    # params[] + bar[] = params[bar][]
+    # params + bar = params[bar]
+    def field_name_append base, append
+      warn "base #{base} append #{append}"
+      if base.to_s == ''
+        append
+      elsif base =~ /\[\]$/ and append !~ /\[\]$/
+        base_without_brackets = base.match(/(.+)\[\]$/)[0]
+        base_without_brackets + '[' + append + ']'
+      elsif base =~ /\[\]$/ and append =~ /\[\]$/
+        # wrong
+        base_without_brackets = base.match(/(.+)\[\]$/)[0]
+        base_without_brackets + '[' + append + ']'
+      else
+        base + '[' + append + ']'
+      end
     end
   end
 end

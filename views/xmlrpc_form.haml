@@ -11,17 +11,17 @@
 
 %form(name="xmlrpc_form" action="#{action_url}" method="POST")
 
--# template_class = rpc_method.input_template.is_a?(Class) ? rpc_method.input_template : rpc_method.input_template.class
--# template_name = "form_datatype_" + template_class.to_s.downcase
--# warn "template name: #{template_name}"
-=# haml(template_name.to_sym, :locals => {:input_template => rpc_method.input_template})
+  -# template_class = rpc_method.input_template.is_a?(Class) ? rpc_method.input_template : rpc_method.input_template.class
+  -# template_name = "form_datatype_" + template_class.to_s.downcase
+  -# warn "template name: #{template_name}"
+  =# haml(template_name.to_sym, :locals => {:input_template => rpc_method.input_template})
 
-= input_template_form_fragment rpc_method.input_template
+  = input_template_form_fragment rpc_method.input_template, 'params'
 
-%br
+  %br
 
-%input(type="submit" value="Execute")
-%input(type="reset" value="Clear Form")
+  %input(type="submit" value="Execute")
+  %input(type="reset" value="Clear Form")
 
 /
   Test cases disabled until JS can be generated dynamically
