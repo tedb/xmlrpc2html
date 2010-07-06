@@ -1,0 +1,9 @@
+[
+%ul
+  - input_template.each do |item|
+    %li
+      = item.to_s
+      \ :
+      %input(type="text" name="input[]")
+      %br
+]

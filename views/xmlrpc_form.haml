@@ -1,0 +1,32 @@
+- warn rpc_method.inspect
+
+%h1
+  = rpc_method.title
+%h2
+  %tt
+    = target.url
+  method
+  %tt
+    = rpc_method.method_name.to_s
+
+%form(name="xmlrpc_form" action="#{action_url}" method="POST")
+
+-# template_class = rpc_method.input_template.is_a?(Class) ? rpc_method.input_template : rpc_method.input_template.class
+-# template_name = "form_datatype_" + template_class.to_s.downcase
+-# warn "template name: #{template_name}"
+=# haml(template_name.to_sym, :locals => {:input_template => rpc_method.input_template})
+
+= input_template_form_fragment rpc_method.input_template
+
+%br
+
+%input(type="submit" value="Execute")
+%input(type="reset" value="Clear Form")
+
+/
+  Test cases disabled until JS can be generated dynamically
+  <input type="button" onclick="document.xmlrpc_form.username.value = 'xmlrpctest9999'; document.user_creation__creatuser.username.disabled = 0" value="Test: should return success"><br>
+
+  <input type="button" onclick="document.xmlrpc_form.username.value = 'invalid!^%$#^username'; document.user_creation__creatuser.username.disabled = 0" value="Test: should return failures"><br>
+
+  <input type="button" onclick="document.xmlrpc_form.username.disabled = 1" value="Test: should raise exception"><br>

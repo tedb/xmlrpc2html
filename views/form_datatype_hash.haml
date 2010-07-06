@@ -1,0 +1,11 @@
+{
+%ul
+  - input_template.each_pair do |item_key, item|
+    %li
+      = item_key.to_s
+      (
+      = item.to_s
+      ):
+      %input(type="text" name="#{item_key.to_s}[]")
+      %br
+}
