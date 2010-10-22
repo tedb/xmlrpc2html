@@ -73,7 +73,7 @@ module Xmlrpc2Html
     # params[] + bar = params[bar]
     # params[] + bar[] = params[bar][]
     # params + bar = params[bar]
-    def field_name_append base, append
+    def html_field_name_append base, append
       warn "base #{base} append #{append}"
       if base.to_s == ''
         append

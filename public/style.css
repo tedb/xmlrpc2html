@@ -14,3 +14,16 @@ body {
 #content {
 	float: left;
 }
+
+li.nobullet {
+	list-style-type: none;
+}
+
+ol.rubyarray {
+	list-style-type: decimal;
+	marker-offset: 0;
+}
+
+span.field_class {
+	font-style: italic;
+}

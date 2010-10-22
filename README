@@ -1,0 +1,38 @@
+FILE LIST
+=========
+
+config.rb
+  Edit this file to define your XML-RPC targets and associated input fields and test cases.
+  This is actual executable Ruby code, which uses the configuration domain-specific language (DSL),
+  implemented in lib/config_dsl.rb
+
+lib/config_dsl.rb
+  Implements configuration DSL.  Principally used to convert config.rb to a validated Xmlrpc2Html::ConfigData object.
+
+lib/helpers.rb
+  Methods used to assist in the rendering of HTML presentation code (views).
+
+lib/sinatratest.rb
+  Devel scratchpad
+
+lib/web_generate.rb
+  Implements Sinatra HTTP handlers
+
+lib/xmlrpc2html_libs.rb
+  Simply "require"s the list of all the other needed libraries.
+
+public/*
+  Stylesheets, images, etc. served up by Sinatra as static files.
+
+spec/*_spec.rb
+  RSpec-based application test suites
+
+views/*.haml
+  HAML-formatted presentation code
+
+xmlrpc2html.kpf
+  Komodo project file (not needed)
+
+xmlrpc2html.rb
+  Execute this to run the application.  This will start an HTTP server on port 9090, which
+  runs a Web app that is generated dynamically based on the contents of config.rb.

@@ -1,11 +1,12 @@
 - warn "starting array"
 [
-%ul
-  - input_template.each do |item|
-    %li
+%ol.rubyarray
+  - input_template.each_with_index do |item, i|
+    %li(value="#{i}")
       /- warn "label #{item.to_s}"
       /= item.class.to_s
       /\ :
       - warn "fragment for #{item.inspect}"
-      = input_template_form_fragment(item, field_name + '[]')
+      = input_template_form_fragment(item, field_name + "[#{i}]")
+      ,
 ]
